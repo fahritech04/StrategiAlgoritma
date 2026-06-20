@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, SkipBack } from 'lucide-react';
+import useAutoPlay from '../hooks/useAutoPlay';
+import PlaybackControls from '../components/PlaybackControls';
+import ExecutionLog from '../components/ExecutionLog';
 import CodeBlock from '../components/CodeBlock';
 
 export default function Knapsack() {
@@ -106,17 +108,7 @@ export default function Knapsack() {
     setSteps(currentSteps);
   };
 
-  useEffect(() => {
-    let timer;
-    if (isPlaying && stepIdx < steps.length - 1) {
-      timer = setTimeout(() => {
-        setStepIdx(prev => prev + 1);
-      }, 500); // Faster for 2D loops
-    } else if (stepIdx >= steps.length - 1) {
-      setIsPlaying(false);
-    }
-    return () => clearTimeout(timer);
-  }, [isPlaying, stepIdx, steps.length]);
+  useAutoPlay(isPlaying, setIsPlaying, stepIdx, setStepIdx, steps.length, 500);
 
   const currentStep = steps[stepIdx] || { line: 1, grid: [], activeCell: null, readCells: [], log: '' };
 
@@ -215,33 +207,10 @@ export default function Knapsack() {
               ))}
             </div>
 
-            <div className="controls" style={{ marginTop: '2rem' }}>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(0)} disabled={stepIdx === 0}>
-                <RotateCcw size={18} /> Reset
-              </button>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(prev => Math.max(0, prev - 1))} disabled={stepIdx === 0}>
-                <SkipBack size={18} /> Prev
-              </button>
-              <button className="btn" onClick={() => setIsPlaying(!isPlaying)}>
-                {isPlaying ? <><Pause size={18} /> Pause</> : <><Play size={18} /> Auto Play</>}
-              </button>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(prev => Math.min(steps.length - 1, prev + 1))} disabled={stepIdx === steps.length - 1}>
-                <SkipForward size={18} /> Next
-              </button>
-            </div>
+            <PlaybackControls isPlaying={isPlaying} setIsPlaying={setIsPlaying} stepIdx={stepIdx} setStepIdx={setStepIdx} stepsLength={steps.length} />
           </div>
 
-          <div className="glass-panel">
-            <h3>Execution Log</h3>
-            <div className="log-panel">
-              {steps.slice(Math.max(0, stepIdx - 10), stepIdx + 1).map((s, i) => (
-                <div key={i} className="log-entry" style={{ opacity: i === Math.min(10, stepIdx) ? 1 : 0.6 }}>
-                  <span style={{ color: 'var(--accent-primary)', marginRight: '0.5rem' }}>{s.log}</span>
-                </div>
-              ))}
-              <div ref={(el) => el?.scrollIntoView({ behavior: 'smooth' })} />
-            </div>
-          </div>
+          <ExecutionLog steps={steps} stepIdx={stepIdx} />
         </div>
 
         <div className="glass-panel" style={{ height: 'fit-content' }}>

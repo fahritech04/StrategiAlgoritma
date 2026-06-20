@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, SkipBack } from 'lucide-react';
+import useAutoPlay from '../hooks/useAutoPlay';
+import PlaybackControls from '../components/PlaybackControls';
+import ExecutionLog from '../components/ExecutionLog';
 import CodeBlock from '../components/CodeBlock';
 
 export default function TSP() {
@@ -122,17 +124,7 @@ export default function TSP() {
     setSteps(currentSteps);
   };
 
-  useEffect(() => {
-    let timer;
-    if (isPlaying && stepIdx < steps.length - 1) {
-      timer = setTimeout(() => {
-        setStepIdx(prev => prev + 1);
-      }, 800);
-    } else if (stepIdx >= steps.length - 1) {
-      setIsPlaying(false);
-    }
-    return () => clearTimeout(timer);
-  }, [isPlaying, stepIdx, steps.length]);
+  useAutoPlay(isPlaying, setIsPlaying, stepIdx, setStepIdx, steps.length, 800);
 
   const currentStep = steps[stepIdx] || { line: 1, dp: [], activeMask: -1, activeCity: -1, nextMask: -1, nextCity: -1, log: '' };
 
@@ -239,35 +231,12 @@ export default function TSP() {
               ))}
             </div>
 
-            <div className="controls" style={{ marginTop: '2rem' }}>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(0)} disabled={stepIdx === 0}>
-                <RotateCcw size={18} /> Reset
-              </button>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(prev => Math.max(0, prev - 1))} disabled={stepIdx === 0}>
-                <SkipBack size={18} /> Prev
-              </button>
-              <button className="btn" onClick={() => setIsPlaying(!isPlaying)}>
-                {isPlaying ? <><Pause size={18} /> Pause</> : <><Play size={18} /> Auto Play</>}
-              </button>
-              <button className="btn btn-secondary" onClick={() => setStepIdx(prev => Math.min(steps.length - 1, prev + 1))} disabled={stepIdx === steps.length - 1}>
-                <SkipForward size={18} /> Next
-              </button>
-            </div>
+            <PlaybackControls isPlaying={isPlaying} setIsPlaying={setIsPlaying} stepIdx={stepIdx} setStepIdx={setStepIdx} stepsLength={steps.length} />
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div className="glass-panel">
-            <h3>Execution Log</h3>
-            <div className="log-panel" style={{ maxHeight: '150px' }}>
-              {steps.slice(Math.max(0, stepIdx - 5), stepIdx + 1).map((s, i) => (
-                <div key={i} className="log-entry" style={{ opacity: i === Math.min(5, stepIdx) ? 1 : 0.6 }}>
-                  {s.log}
-                </div>
-              ))}
-              <div ref={(el) => el?.scrollIntoView({ behavior: 'smooth' })} />
-            </div>
-          </div>
+          <ExecutionLog steps={steps} stepIdx={stepIdx} />
 
           <div className="glass-panel">
             <h3>Pseudocode (C)</h3>
