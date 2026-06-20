@@ -18,6 +18,12 @@ import Hamiltonian from './pages/backtracking/Hamiltonian';
 import GraphColoring from './pages/backtracking/GraphColoring';
 import SubsetSum from './pages/backtracking/SubsetSum';
 
+// Branch and Bound Pages
+import BBIntro from './pages/branch-bound/BBIntro';
+import JobAssignment from './pages/branch-bound/JobAssignment';
+import KnapsackBB from './pages/branch-bound/KnapsackBB';
+import TSPBB from './pages/branch-bound/TSPBB';
+
 function App() {
   return (
     <Router>
@@ -38,6 +44,11 @@ function App() {
           <Route path="/bt-hamiltonian" element={<Hamiltonian />} />
           <Route path="/bt-coloring" element={<GraphColoring />} />
           <Route path="/bt-subset" element={<SubsetSum />} />
+
+          <Route path="/bb-intro" element={<BBIntro />} />
+          <Route path="/bb-job" element={<JobAssignment />} />
+          <Route path="/bb-knapsack" element={<KnapsackBB />} />
+          <Route path="/bb-tsp" element={<TSPBB />} />
         </Routes>
       </Layout>
     </Router>

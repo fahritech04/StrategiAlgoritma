@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   Activity, BookOpen, Coins, BarChart3, Backpack, Map, Home, Menu, 
-  ChevronDown, ChevronRight, Puzzle, Crown, Network, Palette, PlusSquare 
+  ChevronDown, ChevronRight, Puzzle, Crown, Network, Palette, PlusSquare,
+  GitBranch, Briefcase
 } from 'lucide-react';
 
 export default function Layout({ children }) {
@@ -50,6 +51,17 @@ export default function Layout({ children }) {
         { path: '/bt-hamiltonian', label: 'Sirkuit Hamilton', icon: <Network size={16} /> },
         { path: '/bt-coloring', label: 'Pewarnaan Graf', icon: <Palette size={16} /> },
         { path: '/bt-subset', label: 'Subset Sum', icon: <PlusSquare size={16} /> },
+      ]
+    },
+    {
+      id: 'BRANCH_BOUND',
+      title: 'Branch and Bound',
+      icon: <GitBranch size={20} />,
+      items: [
+        { path: '/bb-intro', label: 'Penjelasan Umum', icon: <BookOpen size={16} /> },
+        { path: '/bb-job', label: 'Job Assignment', icon: <Briefcase size={16} /> },
+        { path: '/bb-knapsack', label: '0/1 Knapsack', icon: <Backpack size={16} /> },
+        { path: '/bb-tsp', label: 'TSP', icon: <Map size={16} /> },
       ]
     }
   ];

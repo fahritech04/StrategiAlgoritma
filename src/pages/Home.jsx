@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, Puzzle, ArrowRight, Zap, Code } from 'lucide-react';
+import { Activity, Puzzle, ArrowRight, Zap, Code, GitBranch } from 'lucide-react';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -70,6 +70,31 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Branch and Bound Card */}
+        <div 
+          className="glass-panel" 
+          style={{ cursor: 'pointer', transition: 'all 0.3s ease', borderTop: '4px solid var(--neon-green)' }}
+          onClick={() => navigate('/bb-intro')}
+          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+            <div style={{ padding: '1rem', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '12px' }}>
+              <GitBranch size={32} color="var(--neon-green)" />
+            </div>
+            <ArrowRight size={24} color="var(--text-secondary)" />
+          </div>
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Branch and Bound</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', minHeight: '80px' }}>
+            Teknik optimasi pencarian dengan estimasi batas (Bound) untuk menyeleksi cabang (Branch) yang paling menjanjikan (Best-First Search).
+          </p>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '0.8rem', padding: '0.2rem 0.6rem', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>Job Assignment</span>
+            <span style={{ fontSize: '0.8rem', padding: '0.2rem 0.6rem', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>0/1 Knapsack</span>
+            <span style={{ fontSize: '0.8rem', padding: '0.2rem 0.6rem', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>TSP</span>
+          </div>
+        </div>
+
       </div>
 
       <div className="glass-panel" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
@@ -77,7 +102,7 @@ export default function Home() {
           <Zap color="var(--neon-green)" /> Materi Lainnya Menyusul...
         </h3>
         <p style={{ color: 'var(--text-secondary)' }}>
-          Platform ini akan terus diperbarui dengan modul-modul lain seperti <b>Greedy Algorithms</b>, <b>Divide and Conquer</b>, dan <b>Branch and Bound</b> di pembaruan selanjutnya.
+          Platform ini akan terus diperbarui dengan modul-modul lain seperti <b>Greedy Algorithms</b>, dan <b>Divide and Conquer</b> di pembaruan selanjutnya.
         </p>
       </div>
 
